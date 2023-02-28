@@ -1,64 +1,63 @@
-import re
-import long_responses as long
+print ( "BOT: Welcome to chatbot, I'm Mathbot " )
+user_input = input ( "USER:" )
+import math
 
-def message_probability(user_message, recognised_words, single_response=False, required_words=[]):
-    message_certainty = 0
-    has_required_words = True
 
-    # Counts how many words are present in each predefined message
-    for word in user_message:
-        if word in recognised_words:
-            message_certainty += 1
+def math_bot() :
+    while True :
+        # Get user input
+        print ( "BOT:What operation would you like me to perform? or You can quit my friend😑")
+        1.
+        "Addition"
+        2.
+        "Subtract"
 
-    # Calculates the percent of recognised words in a user message
-    percentage = float(message_certainty) / float(len(recognised_words))
+        user_input_1 = input ( "USER:" )
 
-    # Checks that the required words are in the string
-    for word in required_words:
-        if word not in user_message:
-            has_required_words = False
+        # Exit the loop if the user enters "quit" message
+        if user_input_1 == "quit" :
+            print ( "BOT:Goodbye!😒" )
             break
 
-    # Must either have the required words, or be a single response
-    if has_required_words or single_response:
-        return int(percentage * 100)
-    else:
-        return 0
+        print ( "BOT:Please enter the First operand" )
+        operand1 = int ( input ( "USER:" ) )
+
+        print ( "BOT:Please enter the Second operand" )
+        operand2 = int ( input ( "USER:" ) )
+
+        # Perform the appropriate operation correctly and print the result to display
+        if user_input_1 == "addition" or user_input_1 == "add" :
+            result = operand1 + operand2
+            print ( "BOT:The sum of", operand1, "and", operand2, "is", result )
+        elif user_input_1 == "subtraction" or user_input_1 == "sub" :
+            result = operand1 - operand2
+            print ( "BOT:The difference between", operand1, "and", operand2, "is", result )
+        elif user_input_1 == "multiplication" or user_input_1 == "multiply" :
+            result = operand1 * operand2
+            print ( "BOT:The product of", operand1, "and", operand2, "is", result )
+        elif user_input_1 == "division" or user_input_1 == "divide" :
+            if operand2 == 0 :
+                print ( "BOT:Cannot divide by zero!" )
+            else :
+                result = operand1 / operand2
+                print ( "BOT:The quotient of", operand1, "and", operand2, "is", result )
+        elif user_input_1 == "Power of" or user_input_1 == "power" :
+            result = operand1 ** operand2
+            print ( "BOT:The power of", operand1, "and", operand2, "is", result )
+        elif user_input_1 == "Square root" or user_input_1 == "square" :
+            result = pow ( operand1, 1 / operand2 )
+            print ( "BOT:The square root of", operand1, "to the", operand2, "is", result )
+        else :
+            print ( "BOT:Invalid operator. Please enter a valid operation" )
+
+        print ( "BOT:Do you want to continue?(yes/no)" )
+        opt = input ( "USER:" )
+        if opt == "no" :
+            print ( "BOT:Thank you for using the MathBot" )
+            break
+        else :
+            continue
 
 
-def check_all_messages(message: object) -> object:
-    highest_prob_list = {}
-
-    # Simplifies response creation / adds it to the dict
-    def response(bot_response, list_of_words, single_response=False, required_words=[]):
-        nonlocal highest_prob_list
-        highest_prob_list[bot_response] = message_probability(message, list_of_words, single_response, required_words)
-
-    # Responses -------------------------------------------------------------------------------------------------------
-    response('Hello!', ['hello', 'hi', 'hey', 'sup', 'heyo'], single_response=True)
-    response('See you!', ['bye', 'goodbye'], single_response=True)
-    response('I\'m doing fine, and you?', ['how', 'are', 'you', 'doing'], required_words=['how'])
-    response('You\'re welcome!', ['thank', 'thanks'], single_response=True)
-    response('Thank you!', ['i', 'love', 'code', 'palace'], required_words=['code', 'palace'])
-
-    # Longer responses
-    response(long.R_ADVICE, ['give', 'advice'], required_words=['advice'])
-    response(long.R_EATING, ['what', 'you', 'eat'], required_words=['you', 'eat'])
-
-    best_match = max(highest_prob_list, key=highest_prob_list.get)
-    # print(highest_prob_list)
-    # print(f'Best match = {best_match} | Score: {highest_prob_list[best_match]}')
-
-    return long.unknown() if highest_prob_list[best_match] < 1 else best_match
-
-
-# Used to get the response
-def get_response(user_input):
-    split_message = re.split(r'\s+|[,;?!.-]\s*', user_input.lower())
-    response = check_all_messages(split_message)
-    return response
-
-
-# Testing the response system
-while True:
-    print('Bot: ' + get_response(input('You: ')))
+# Call the chat bot function
+math_bot ()
